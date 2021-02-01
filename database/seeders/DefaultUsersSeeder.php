@@ -19,7 +19,7 @@ class DefaultUsersSeeder extends Seeder
             'name'              => 'admin@housestory.loc',
             'email'             => 'admin@housestory.loc',
             'password'          => Hash::make(env('DEFAULT_ADMIN_PASS')),
-            'email_verified_at' => now(),
+            'registered_at' => now(),
         ]);
     }
 }
