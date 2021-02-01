@@ -15,15 +15,17 @@ class CreateHousesTable extends Migration
     {
         Schema::create('houses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->integer('city_id');
             $table->integer('user_id');
-            $table->string('address');
-            $table->string('postcode');
-            $table->float('lat');
-            $table->float('lon');
-            $table->boolean('active');
-            $table->boolean('is_approved');
+            $table->string('street_name');
+            $table->string('house_no');
+            $table->string('house_building')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('lat');
+            $table->string('lon');
+            $table->boolean('active')->default(0);
+            $table->boolean('is_approved')->default(0);
             $table->timestamps();
         });
     }
