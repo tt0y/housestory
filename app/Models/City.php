@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class City extends Model
 {
@@ -15,9 +18,13 @@ class City extends Model
     protected $table = 'cities';
 
     protected $fillable = [
-        'id',
         'name',
         'subject_number',
         'country_id'
     ];
+
+    public function countries(): HasMany
+    {
+        return $this->hasMany(Country::class, 'county_id', 'id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CityRequest;
+use App\Models\Country;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -39,7 +40,6 @@ class CityCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
         CRUD::column('name');
         CRUD::column('subject_number');
         CRUD::column('country_id');
@@ -61,19 +61,24 @@ class CityCrudController extends CrudController
     {
         CRUD::setValidation(CityRequest::class);
 
-        CRUD::column('name');
-        CRUD::column('subject_number');
-        CRUD::column('country_id');
-
         $this->crud->AddFields([
             [
                 'name' => 'name',
                 'label' => __('name'),
                 'type' => 'text',
-            ],            [
+            ], [
                 'name' => 'subject_number',
-                'label' => __('country_code'),
+                'label' => __('subject_number'),
                 'type' => 'text',
+            ], [
+                'name' => 'country_id',
+                'label' => __('country'),
+                'type' => 'select',
+
+                'entity' => 'countries', // the method that defines the relationship in your Model
+                'model' => Country::class, // foreign key model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'select_all' => true, // show Select All and Clear buttons?
             ]
         ]);
 
