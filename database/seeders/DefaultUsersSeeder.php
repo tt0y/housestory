@@ -16,8 +16,8 @@ class DefaultUsersSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name'              => 'admin@housestory.loc',
-            'email'             => 'admin@housestory.loc',
+            'name'              => 'admin@chozadom.ru',
+            'email'             => 'admin@chozadom.ru',
             'password'          => Hash::make(env('DEFAULT_ADMIN_PASS')),
             'registered_at' => now(),
         ]);
