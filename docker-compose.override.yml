@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    environment:
+      VIRTUAL_HOST: 'api.${DOMAIN}'
+      VIRTUAL_PORT: '8080'
+    volumes:
+      - ./:/var/www/html/:Z
+
+  database:
+    volumes:
+      - ./resources/resettlement:/data/resettlement:ro
+
+  adminer:
+    environment:
+      VIRTUAL_HOST: 'adminer.${DOMAIN}'
+      VIRTUAL_PORT: '8080'
+
+  swagger:
+    environment:
+      VIRTUAL_HOST: 'swagger.${DOMAIN}'
+      VIRTUAL_PORT: '8080'
+
+networks:
+  router:
+    external:
+      name: localhost

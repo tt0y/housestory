@@ -1,0 +1,20 @@
+{{- $remoteIp := env.Getenv "REMOTE_IP" -}}
+{{- $remotePort := env.Getenv "REMOTE_PORT" "22" -}}
+{{- $remoteUser := env.Getenv "REMOTE_USER" "root" -}}
+{{- $proxyIp := env.Getenv "REMOTE_PROXY_IP" -}}
+{{- $proxyPort := env.Getenv "REMOTE_PROXY_PORT" "22" -}}
+{{- $proxyUser := env.Getenv "REMOTE_PROXY_USER" $remoteUser -}}
+{{- if ne $proxyIp "" -}}
+Host proxy
+    HostName {{ $proxyIp }}
+    Port {{ $proxyPort }}
+    User {{ $proxyUser }}
+{{- end }}
+
+Host shipit
+    HostName {{ $remoteIp }}
+    Port {{ $remotePort }}
+    User {{ $remoteUser }}
+    {{- if ne $proxyIp "" }}
+    ProxyCommand ssh -W %h:%p proxy
+    {{- end }}

@@ -1,0 +1,18 @@
+host='shipit'
+path=$REMOTE_PATH
+
+[deploy-to-staging]
+# Check local repo status
+git status
+# Fetch changes from all remotes
+git fetch --all
+# Checkout to current commit
+git checkout {{ .Env.CI_COMMIT_SHA }}
+# Create .env from template if not exists
+test -e .env || cp .env.example .env
+# Create empty docker-compose.override.yml config if not exists
+test -e docker-compose.override.yml || echo "version: '3'" > docker-compose.override.yml
+# Build docker image
+docker-compose -f docker-compose.yml -f docker-compose.{{ .Env.CI_ENVIRONMENT_NAME }}.yml -f docker-compose.override.yml build --pull
+# Start docker services
+docker-compose -f docker-compose.yml -f docker-compose.{{ .Env.CI_ENVIRONMENT_NAME }}.yml -f docker-compose.override.yml up -d --no-deps --remove-orphans

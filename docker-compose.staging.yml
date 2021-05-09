@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  app:
+    environment:
+      VIRTUAL_HOST: 'api.${DOMAIN}'
+      VIRTUAL_PORT: '8080'
+    volumes:
+      - ./.docker/app/log:/var/www/html/var/log:Z
+      - ./resources/resettlement:/var/www/html/resources/resettlement:Z
+    restart: unless-stopped
+
+  database:
+    volumes:
+      - ./resources/resettlement:/data/resettlement:ro
+    restart: unless-stopped
+
+  adminer:
+    environment:
+      VIRTUAL_HOST: 'adminer.${DOMAIN}'
+      VIRTUAL_PORT: '8080'
+    restart: unless-stopped
+
+  swagger:
+    environment:
+      VIRTUAL_HOST: 'swagger.${DOMAIN}'
+      VIRTUAL_PORT: '8080'
+    restart: unless-stopped
+
+  redis:
+    restart: unless-stopped
+
+networks:
+  router:
+    external:
+      name: localhost
